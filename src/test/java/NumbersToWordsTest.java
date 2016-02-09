@@ -9,4 +9,9 @@ public class NumbersToWordsTest {
     NumbersToWords testNumber = new NumbersToWords();
     assertEquals("four",testNumber.getWord(4));
   }
+  @Test
+  public void getWord_UserEnters24_ReturnsTwentyFour() {
+    NumbersToWords testNumber = new NumbersToWords();
+    assertEquals("twenty four",testNumber.getWord(24));
+  }
 }
