@@ -12,6 +12,11 @@ public class NumbersToWordsTest {
   @Test
   public void getWord_UserEnters24_ReturnsTwentyFour() {
     NumbersToWords testNumber = new NumbersToWords();
-    assertEquals("twenty four",testNumber.getWord(24));
+    assertEquals("twenty",testNumber.getWord(20));
+  }
+  @Test
+  public void getWord_UserEnters184_ReturnsOneHundredAndEightyFour() {
+    NumbersToWords testNumber = new NumbersToWords();
+    assertEquals("one hundred",testNumber.getWord(100));
   }
 }
