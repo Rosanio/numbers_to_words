@@ -7,9 +7,32 @@ import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
 
 public class NumbersToWords {
-  public static void main(String[] args) {}
+  public static void main(String[] args) {
+    staticFileLocation("/public");
+    String layout = "templates/layout.vtl";
 
-  public String getWord(Integer number) {
+    get("/numberentry", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      model.put("template", "templates/numberentry.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/numberresult", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      String stringNumber = request.queryParams("numberEntry");
+      Integer number = Integer.parseInt(stringNumber);
+      String numberWord = NumbersToWords.getWord(number);
+
+      model.put("numberEntry", stringNumber);
+      model.put("wordResult", numberWord);
+      model.put("template", "templates/numberresult.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+  }
+
+  public static String getWord(Integer number) {
     String finalWord = "";
     HashMap<Integer, String> findSmallWords = new HashMap<Integer, String>();
     HashMap<Integer, String> findTensWords = new HashMap<Integer, String>();
