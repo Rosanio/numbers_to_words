@@ -50,6 +50,9 @@ public class NumbersToWords {
       findHundredsWords.put(i, (smallNumberWords[i-1] + " hundred"));
     } //END HASHMAP SETUP
 
+    if (number == 0) {
+      return "zero";
+    }
     String stringNumber = Integer.toString(number);
     Integer numberScale = stringNumber.length();
     Integer numberGroups = numberScale / 3;
