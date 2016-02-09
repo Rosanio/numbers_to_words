@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
@@ -6,9 +7,7 @@ import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
 
 public class NumbersToWords {
-  public static void main(String[] args) {
-
-  }
+  public static void main(String[] args) {}
 
   public String getWord(Integer number) {
     String finalWord = "";
@@ -26,24 +25,63 @@ public class NumbersToWords {
     }
     for(Integer i = 1; i <= 9; i++) {
       findHundredsWords.put(i, (smallNumberWords[i-1] + " hundred"));
-    }
-    Integer hundreds = number / 100;
-    number = number % 100;
-    Integer tens = number / 10;
-    Integer remainder = number % 10;
+    } //END HASHMAP SETUP
 
-    finalWord += findHundredsWords.get(hundreds);
-    if (number > 0 && hundreds > 0) {
-      finalWord += " and ";
+    String stringNumber = Integer.toString(number);
+    Integer numberScale = stringNumber.length();
+    Integer numberGroups = numberScale / 3;
+    Integer numberGroupsRemainder = numberScale % 3;
+    if(numberGroupsRemainder > 0) {
+      numberGroups += 1;
     }
-    if(tens >= 2) {
-      finalWord = finalWord + findTensWords.get(tens);
-      if(remainder > 0) {
-        finalWord = finalWord + " " + findSmallWords.get(remainder);
+    ArrayList<String> stringNumberArray = new ArrayList<String>();
+    for(Integer i = 1; i <= numberGroups; i++) {
+      if(stringNumber.length() - 3 < 0) {
+        stringNumberArray.add(stringNumber);
+      } else {
+        stringNumberArray.add(stringNumber.substring(stringNumber.length()-3,stringNumber.length()));
+        stringNumber = stringNumber.substring(0,stringNumber.length()-3);
       }
-    } else if (number > 0){
-      finalWord = findSmallWords.get(number);
+    }
+
+    for(Integer i = numberGroups; i > 0; i--) {
+      String tempStringNumber = stringNumberArray.get(i-1);
+      Integer tempNumber = Integer.parseInt(tempStringNumber);
+      Integer hundreds = tempNumber / 100;
+      tempNumber = tempNumber % 100;
+      Integer tens = tempNumber / 10;
+      Integer remainder = tempNumber % 10;
+
+      finalWord += findHundredsWords.get(hundreds);
+      if (tempNumber > 0 && hundreds > 0) {
+        finalWord += " and ";
+      }
+      if(tens >= 2) {
+        finalWord = finalWord + findTensWords.get(tens);
+        if(remainder > 0) {
+          finalWord = finalWord + " " + findSmallWords.get(remainder);
+        }
+      } else if (tempNumber > 0){
+        finalWord += findSmallWords.get(tempNumber);
+      }
+
+      if(i == 5) {
+        finalWord += " trillion ";
+      }
+      if(i == 4) {
+        finalWord += " billion ";
+      }
+      if(i == 3) {
+        finalWord += " million ";
+      }
+      if(i == 2) {
+        finalWord += " thousand ";
+      }
+
     }
     return finalWord;
+
+
+
   }
 }

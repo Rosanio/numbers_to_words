@@ -15,8 +15,13 @@ public class NumbersToWordsTest {
     assertEquals("twenty",testNumber.getWord(20));
   }
   @Test
-  public void getWord_UserEnters184_ReturnsOneHundredAndEightyFour() {
+  public void getWord_UserEnters519_ReturnsFiveHundredAndNineteen() {
     NumbersToWords testNumber = new NumbersToWords();
-    assertEquals("one hundred",testNumber.getWord(100));
+    assertEquals("five hundred and nineteen",testNumber.getWord(519));
+  }
+  @Test
+  public void getWord_UserEnters2119_ReturnsTwoThousandOneHundredAndNineteen() {
+    NumbersToWords testNumber = new NumbersToWords();
+    assertEquals("two million two thousand one hundred and nineteen",testNumber.getWord(2002119));
   }
 }
